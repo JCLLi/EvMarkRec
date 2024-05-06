@@ -1,0 +1,21 @@
+{
+    "data": {
+        "image_size": [240, 320],
+        "train_image_path": "Dataset/Marker/Image/v2",
+        "train_label_path": "Dataset/Marker/Label/v2",
+        "validate_image_path": "Dataset/Marker/Image/v2/validation",
+        "validate_label_path": "Dataset/Marker/Label/v2/validation"
+    },
+    "training": {
+        "checkpoint_path": "./Checkpoints/",
+        "default_learning_rate": 0.0001,
+        "lr_decay_threshold": 81,
+        "batch_size": 32,
+        "epochs": 80
+    },
+    "network": {
+        "init_filter": 32,
+        "sub_block": 2,
+        "expansion_factor": 2
+    }
+}

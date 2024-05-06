@@ -1,0 +1,8 @@
+.idea/
+__pycache__/
+CPbackup/
+DataGenInput/
+DataGenOutput/
+Dataset/
+Test/
+Dockerfile
