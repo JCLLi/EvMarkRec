@@ -67,7 +67,7 @@ def train(setting):
 
     # Compile model
     network.compile(optimizer=keras.optimizers.Adam(learning_rate),
-                    loss=lambda y_true, y_pred: Model.loss(y_true, y_pred),
+                    loss="mean_squared_error",
                     metrics=[keras.metrics.BinaryAccuracy(threshold=0.5)])
 
     # Checkpoint, dynamic learning rate and tensor board setup
@@ -81,16 +81,10 @@ def train(setting):
     tensor_board = keras.callbacks.TensorBoard(log_dir="Log", histogram_freq=0, write_graph=False, write_images=False,
                                                write_steps_per_second=False, update_freq="epoch")
 
-    callbacks = [check_point, dynamic_lr, tensor_board]
+    callbacks = [check_point, tensor_board, dynamic_lr]
 
     # Summarize network architecture
     network.summary()
-    # Calculate the total number of parameters
-    total_params = sum(keras.backend.count_params(p) for p in network.trainable_weights)
-    # Calculate the model size in MB
-    total_model_size = total_params * 4 / (1024 ** 2)  # assuming 4 bytes for each parameter
-    print("Total Parameters:", total_params)
-    print("Model Size (MB):", total_model_size)
     print("Trained epoch is:", trained_epoch)
     print("Learning rate is:", learning_rate)
     # visualkeras.layered_view(ResNet, to_file='./output.png').show()

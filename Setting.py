@@ -36,7 +36,7 @@ def create_json():
             "validate_label_path": "Dataset/Marker/Label/v2/validation",
         },
         "training": {
-            "checkpoint_path": "./Checkpoints/",
+            "checkpoint_path": "Checkpoints/",
             "default_learning_rate": 0.001,
             "lr_decay_threshold": 40,
             "batch_size": 20,

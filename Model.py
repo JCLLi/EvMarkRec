@@ -35,9 +35,9 @@ def get_model(img_size, init_filter, sub_block, expansion_factor):
         x = keras.layers.add([x, res])
         x = keras.layers.Activation("relu")(x)
 
-        # x = keras.layers.Conv2D(filter_num, 3, strides=1, padding="same")(x)
-        # x = keras.layers.BatchNormalization()(x)
-        # x = keras.layers.Activation("relu")(x)
+        x = keras.layers.Conv2D(filter_num, 3, strides=1, padding="same")(x)
+        x = keras.layers.BatchNormalization()(x)
+        x = keras.layers.Activation("relu")(x)
 
         filter_num *= expansion_factor
 
@@ -55,20 +55,20 @@ def get_model(img_size, init_filter, sub_block, expansion_factor):
         x = keras.layers.add([x, res])
         x = keras.layers.Activation("relu")(x)
 
-        # x = keras.layers.Conv2DTranspose(filter_num, 3, strides=1, padding="same")(x)
-        # x = keras.layers.BatchNormalization()(x)
-        # x = keras.layers.Activation("relu")(x)
+        x = keras.layers.Conv2DTranspose(filter_num, 3, strides=1, padding="same")(x)
+        x = keras.layers.BatchNormalization()(x)
+        x = keras.layers.Activation("relu")(x)
 
-        filter_num /= expansion_factor
+        filter_num //= expansion_factor
 
         x = keras.layers.Conv2DTranspose(filter_num, 3, strides=2, padding="same")(x)
 
-    filter_num /= expansion_factor
+    filter_num //= expansion_factor
     x = keras.layers.Conv2DTranspose(filter_num, 5, strides=2, padding="same")(x)
     x = keras.layers.BatchNormalization()(x)
     x = keras.layers.Activation("relu")(x)
 
-    filter_num /= expansion_factor
+    filter_num //= expansion_factor
     x = keras.layers.Conv2DTranspose(filter_num, 7, strides=2, padding="same")(x)
     x = keras.layers.BatchNormalization()(x)
     x = keras.layers.Activation("relu")(x)

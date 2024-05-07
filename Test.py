@@ -7,30 +7,27 @@ import Model
 import BacthGeneration as bg
 import cv2
 import numpy as np
-from IPython.display import display
-from PIL import ImageOps
 import time
 
 
 def test():
     # model = tf.keras.models.load_model("./CPbackup/80it_lrde_7f_2sub/080-0.0001-0.0012.keras", compile=False)
-    model = tf.keras.models.load_model("./Checkpoints/080-0.0002-0.0014.keras", compile=False)
-    model.compile(optimizer=keras.optimizers.Adam(9.0718e-05), loss=lambda y_true, y_pred: Model.loss(y_true, y_pred))
+    model = tf.keras.models.load_model("./Dataset/080-0.0005-0.0027.keras")
+    # model.compile(optimizer=keras.optimizers.Adam(9.0718e-05), loss=lambda y_true, y_pred: Model.loss(y_true, y_pred))
     # image_path = 'Dataset/Marker/Image/test'
-    image_path = '../DVS/test'
+    image_path = './Dataset/Test'
     # image_path = 'Dataset/Marker/Image/v2/validation'
-    label_path = 'Dataset/Marker/Label/v2/validation'
+    # label_path = 'Dataset/Marker/Label/v2/validation'
     ImageSize = (240, 320)
     ImagePath = [
         os.path.join(image_path, fname)
         for fname in os.listdir(image_path)
         if fname.endswith(".png")
     ]
+    sorted_image_paths = sorted(ImagePath)
     images = []
-    for path in ImagePath:
+    for path in sorted_image_paths:
         image = tf.io.read_file(path)
-        # image = tf.io.read_file("./Test/7.png")
-        # image = tf.io.read_file("Dataset/Marker/Image/New\\42.jpg")
         image = tf.io.decode_png(image, channels=1)
         image = tf.image.resize(image, ImageSize)
         image = tf.image.convert_image_dtype(image, "float32") / 255.0
@@ -57,7 +54,7 @@ def test():
         start_time = time.perf_counter()
         res = model(images[i])
         end_time = time.perf_counter()
-        # print("time " + str(end_time - start_time) + " seconds")
+        print("time " + str(end_time - start_time) + " seconds")
 
         res = res[:, :, :, :1]
         # res = res[..., 1]
@@ -70,8 +67,8 @@ def test():
         min_val = np.min(res)
         max_val = np.max(res)
         rescaled_array = (255 * (res - min_val) / (max_val - min_val)).astype(np.uint8)
-        # cv2.imwrite("Test\\res2\\" + str(i) + ".png", rescaled_array)
-        cv2.imwrite("Test\\res4\\" + str(i) + ".png", rescaled_array)
+
+        cv2.imwrite("Testres/" + str(i) + ".png", rescaled_array)
 
     # img = keras.utils.array_to_img(res)
     # res = (np.clip(res, 0., 1.) * 255.).astype(np.uint8)
