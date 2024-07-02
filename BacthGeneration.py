@@ -7,12 +7,12 @@ def get_dataset(batch_size, image_path, labels_path, image_size):
     ImagePath = sorted([
         os.path.join(image_path, fname)
         for fname in os.listdir(image_path)
-        if fname.endswith(".jpg")
+        if fname.endswith(".png")
     ])
     LablePath = sorted([
         os.path.join(labels_path, fname)
         for fname in os.listdir(labels_path)
-        if fname.endswith(".jpg")
+        if fname.endswith(".png")
     ])
 
     def normalize(image_name, label_name):

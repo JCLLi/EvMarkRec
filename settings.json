@@ -1,17 +1,42 @@
 {
     "data": {
         "image_size": [240, 320],
-        "train_image_path": "Dataset/Marker/Image/v2",
-        "train_label_path": "Dataset/Marker/Label/v2",
-        "validate_image_path": "Dataset/Marker/Image/v2/validation",
-        "validate_label_path": "Dataset/Marker/Label/v2/validation"
+        "train_image_path": "Dataset/Marker/Image/v3",
+        "train_label_path": "Dataset/Marker/Label/v3",
+        "validate_image_path": "Dataset/Marker/Image/v3/validation",
+        "validate_label_path": "Dataset/Marker/Label/v3/validation"
     },
     "training": {
         "checkpoint_path": "Checkpoints/",
-        "default_learning_rate": 0.0001,
-        "lr_decay_threshold": 81,
+        "loss": "BCE",
+        "learning_rate_scheduler": "ConCos",
+            "Constant": {
+                "default_learning_rate": 0.00007
+            },
+            "ConCos": {
+                "default_learning_rate": 0.00007,
+                "end_learning_rate": 0.00002,
+                "constant_epoch": 300
+            },
+            "LinCos": {
+                "default_learning_rate": 0.00005,
+                "end_learning_rate": 0.00003,
+                "warmup_epoch": 30
+            },
+            "InverseTimeDecay": {
+                "default_learning_rate": 0.0001,
+                "decay_epoch": 80,
+                "decay_rate": 10
+            },      
+            "CosineDecayRestarts": {
+                "default_learning_rate": 0.00007,
+                "decay_epoch": 70,
+                "t_mul": 1.1,
+                "m_mul": 0.3
+            }, 
         "batch_size": 32,
-        "epochs": 80
+        "epochs": 400,
+        "checkpoint_epoch": 20
     },
     "network": {
         "init_filter": 32,

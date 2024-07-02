@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 Checkpoint/
+Checkpoints/
 CPbackup/
 DataGenInput/
 DataGenOutput/
@@ -8,4 +9,6 @@ Dataset/
 Test/
 Testres/
 Log/
+Logbp2/
+Res/
 Dockerfile
