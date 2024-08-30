@@ -4,45 +4,6 @@ import cv2
 import numpy as np
 import os
 
-def image_merge():
-    base = cv2.imread("./Test/0.jpg")
-    base = cv2.cvtColor(base, cv2.COLOR_BGR2GRAY)
-    for i in range(1, 56):
-        inext = cv2.imread("./Test/" + str(i * 4) + ".jpg")
-        inext = cv2.cvtColor(inext, cv2.COLOR_BGR2GRAY)
-        mask = cv2.inRange(inext, 110, 140)
-        mask = cv2.bitwise_not(mask)
-        result = cv2.bitwise_and(inext, inext, mask=mask)
-        result += cv2.bitwise_and(base, base, mask=cv2.bitwise_not(mask))
-        base = result
-    cv2.imshow('Combined Image', result)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    mask = cv2.inRange(result, 110, 140)
-    mask = cv2.bitwise_not(mask)
-    cv2.imshow('Combined Image', mask)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-def image_merge2():
-
-    img2 = cv2.imread("./Test/0.jpg")
-    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-    selected_region2 = img2[180:300, 260:380]
-
-    for i in range(1, 56):
-        img1 = cv2.imread("./Test/" + str(i * 4) + ".jpg")
-        img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-        selected_region1 = img1[180:300, 260:380]
-        mask = cv2.inRange(selected_region1, 110, 140)
-        mask = cv2.bitwise_not(mask)
-        result = cv2.bitwise_and(selected_region1, selected_region1, mask=mask)
-        result2 = cv2.bitwise_and(selected_region2, selected_region2, mask=cv2.bitwise_not(mask))
-        selected_region2 = result + result2
-    cv2.imshow('result', selected_region2)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 def add_noise(gray_frame):
     read = False
     while not read:
@@ -62,11 +23,6 @@ def add_noise(gray_frame):
     kernel = np.ones((5, 5), np.uint8)
 
     dilated_mask = cv2.dilate(mask, kernel, iterations=3)
-    # cv2.imshow('gray_frame', gray_frame)
-    # cv2.imshow('mask', mask)
-    # cv2.imshow('dilated_mask', dilated_mask)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
 
     # Combine the two images using the mask
     result = cv2.bitwise_and(gray_frame, gray_frame, mask=dilated_mask)
@@ -165,37 +121,10 @@ def noise_generate():
     print(f"Processed {frame_count} frames.")
 
 
-def test():
-    frame_count = 0
-
-    cap = cv2.VideoCapture('.\\DataGenOutput\\v2\\event\\m3.avi')
-    # Read and process each frame
-    a = 0
-    while frame_count < 1:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
-        ret, frame = cap.read()
-        if not ret:
-            break  # Break the loop if no more frames are available
-
-        # Convert the frame to grayscale
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray_frame = cv2.resize(gray_frame, (346, 260))
-        add_noise(gray_frame)
-        output_path = os.path.join('.\\Test',
-                                   f'{frame_count}.jpg')
-        cv2.imwrite(output_path, gray_frame)
-
-        frame_count += 1
-
-    # Release the video capture object
-    cap.release()
-    print(f"Processed {frame_count} frames.")
 
 
 def main():
-    # test()
-    # image_merge()
-    # image_merge2()
     v2i_image()
+
 if __name__ == '__main__':
     main()

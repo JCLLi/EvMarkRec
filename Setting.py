@@ -72,37 +72,3 @@ def read_json(file_path):
     return Setting(settings)
 
 
-def create_json():
-    setting = {
-        "data": {
-            "image_size": (240, 320),
-            "train_image_path": "Dataset/Marker/Image/v2",
-            "train_label_path": "Dataset/Marker/Label/v2",
-            "validate_image_path": "Dataset/Marker/Image/v2/validation",
-            "validate_label_path": "Dataset/Marker/Label/v2/validation",
-        },
-        "training": {
-            "checkpoint_path": "./Checkpoints/",
-            "default_learning_rate": 0.001,
-            "lr_decay_threshold": 40,
-            "batch_size": 20,
-            "epochs": 10,
-        },
-
-        "network": {
-            "init_filter": 32,
-            "sub_block": 2,
-            "expansion_factor": 2
-        }
-    }
-
-    # Specify the filename for the JSON file
-    json_file = "./settings.json"
-
-    # Write the settings to the JSON file
-    with open(json_file, 'w') as f:
-        json.dump(setting, f, indent=4)
-        # json.dump(training, f, indent=4)
-        # json.dump(network, f, indent=4)
-
-    print("Settings saved to", json_file)
