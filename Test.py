@@ -30,7 +30,7 @@ def test():
                     loss=setting.loss,
                     metrics=[IoU.CustomIoU()])
 
-    image_path = './Dataset/Independent' 
+    image_path = './Testset/DecodingTest/' 
     # Data loaded for TensorFlow
     ImageSize = (240, 320)
     ImagePath = [
@@ -63,7 +63,7 @@ def test():
         camera_output.append(image)
 
     
-    ############### Uncomment codes below for testing IoU 
+    ############### Uncomment codes below for testing IoU, you need to have correspoding groundtruth
     # label_path = './Dataset/Marker/Label/v3/validation/'
 
     # ImageSize = (240, 320)
@@ -87,17 +87,13 @@ def test():
         res = model(images[i])
         res = res[:, :, :, :1]
         res = np.squeeze(res, axis=0)
-        
-        
-        print("time " + str(end_time - start_time) + " seconds")
 
         if setting.loss == "mean_squared_error" or isinstance(setting.loss, keras.losses.BinaryCrossentropy):
             min_val = np.min(res)
             max_val = np.max(res)
             
             rescaled_array = (255 * (res - min_val) / (max_val - min_val)).astype(np.uint8)
-            
-            Decode.decode_message(camera_output[i], rescaled_array) # Comment this for testing IoU
+            Decode.decode_message(camera_output[i], rescaled_array, i) # Comment this for testing IoU
             end_time = time.perf_counter()
             print("time " + str(end_time - start_time) + " seconds")
 

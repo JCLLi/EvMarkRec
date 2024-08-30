@@ -715,12 +715,12 @@ def blur_clear(on, off):
 
     return on, off
 
-def decode_message(camera_output, model_output):
+def decode_message(camera_output, model_output, index):
 
     if camera_output is not None:
         path = []
         scale_factor = 0.7
-
+        model_output = cv2.resize(model_output, [346, 260])
         vertices, valid, _ = outline(camera_output, model_output, scale_factor, False, False, False, False)
 
         if valid:
@@ -728,8 +728,8 @@ def decode_message(camera_output, model_output):
             on_events, off_events = divide(marker)
             on_events, off_events = blur_clear(on_events, off_events)
 
-            on_result = refine_l1(on_events, True, path, True, True, True)
-            off_result = refine_l1(off_events, False, path, True, True, True)
+            on_result = refine_l1(on_events, True, path, False, False, False)
+            off_result = refine_l1(off_events, False, path, False, False, False)
 
             decode_result = ""
             for i in range(0, 4):
